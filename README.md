@@ -68,12 +68,19 @@ pip install -r requirements.txt
 python3 manage.py migrate
 ```
 
-2. Run server
+2. Create superuser
 ```console
-python3 manage.py runserver
+python manage.py createsuperuser 
+
+```
+3. Run server
+```console
+python manage.py runserver
 ```
 
-3. Launch redis server and queue workers (for sending emails)
+## In case you need to send emails 
+
+1. Launch redis server and queue workers
 
 They don't work in Windows, so if you have one, you need to launch them in 
    emulated unix-OS (wsl or emulated ubuntu)
@@ -83,7 +90,7 @@ Launch server in one terminal
 redis-server
 ```
 
-Launch workers in another terminal
+2. Launch workers in another terminal
 ```console
 celery -A invest_blog worker -l INFO
 ```

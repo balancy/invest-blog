@@ -11,9 +11,10 @@ click-repl==0.2.0
 colorama==0.4.4
 Django==3.2.3
 django-celery-results==2.0.1
+django-debug-toolbar==3.2.1
 django-tinymce==3.3.0
 factory-boy==3.2.0
-Faker==8.4.0
+Faker==4.0.0
 iniconfig==1.1.1
 isort==5.8.0
 kombu==5.1.0
