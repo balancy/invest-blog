@@ -16,19 +16,37 @@ from education.models import Category, Course
 from education.tasks import send_mail_task
 
 
-class CategoriesList(ListView):
-    model = Category
-    title = 'Список курсов'
-
+class TitleMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
         return context
 
 
+class CategoriesList(TitleMixin, ListView):
+    model = Category
+    title = 'Список курсов'
+    queryset = Category.objects.prefetch_related(
+        'courses',
+        'courses__responsible',
+        'courses__responsible__user',
+    ).all()
+
+
 class CourseDetailView(DetailView):
     model = Course
     pk_url_kwarg = 'course_id'
+
+    queryset = Course.objects.select_related(
+        'category',
+        'responsible',
+        'responsible__user',
+    ).prefetch_related(
+        'lessons',
+        'lessons__tags',
+        'lessons__mentor',
+        'lessons__mentor__user',
+    ).all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,38 +54,43 @@ class CourseDetailView(DetailView):
         return context
 
 
-class CourseTitleMixin:
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = self.title
-        return context
-
-
 @method_decorator(staff_member_required, name='dispatch')
-class CourseAddView(CourseTitleMixin, CreateView):
+class CourseAddView(TitleMixin, CreateView):
     model = Course
     form_class = CourseForm
     title = 'Добавить курс'
     success_url = reverse_lazy('categories_list')
 
+    queryset = Course.objects.select_related(
+        'category',
+        'responsible',
+        'responsible__user',
+    ).all()
+
 
 @method_decorator(staff_member_required, name='dispatch')
-class CourseUpdateView(CourseTitleMixin, UpdateView):
+class CourseUpdateView(TitleMixin, UpdateView):
     model = Course
     form_class = CourseForm
     title = 'Обновить курс'
     success_url = reverse_lazy('categories_list')
 
+    queryset = Course.objects.select_related(
+        'category',
+        'responsible',
+        'responsible__user',
+    ).all()
+
 
 @method_decorator(staff_member_required, name='dispatch')
-class CourseDeleteView(CourseTitleMixin, DeleteView):
+class CourseDeleteView(TitleMixin, DeleteView):
     model = Course
     title = 'Удалить курс'
     success_url = reverse_lazy('categories_list')
     template_name_suffix = '_delete'
 
 
-class ContactFormView(CourseTitleMixin, FormView):
+class ContactFormView(TitleMixin, FormView):
     form_class = ContactForm
     template_name = "education/contact.html"
     success_url = reverse_lazy('categories_list')
