@@ -11,8 +11,8 @@ from django.views.generic import (
     UpdateView,
 )
 
-from education.forms import CourseForm, ContactForm
-from education.models import Category, Course
+from education.forms import CourseForm, ContactForm, LessonForm
+from education.models import Category, Course, Lesson
 from education.tasks import send_mail_task
 
 
@@ -46,6 +46,24 @@ class CourseDetailView(DetailView):
         'lessons__tags',
         'lessons__mentor',
         'lessons__mentor__user',
+    ).all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = kwargs['object'].title
+        return context
+
+
+class LessonDetailView(DetailView):
+    model = Lesson
+    pk_url_kwarg = 'lesson_id'
+
+    queryset = Lesson.objects.select_related(
+        'course',
+        'mentor',
+        'mentor__user',
+    ).prefetch_related(
+        'tags',
     ).all()
 
     def get_context_data(self, **kwargs):

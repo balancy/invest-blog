@@ -1,0 +1,13 @@
+{% extends "education/base.html" %}
+
+{% block content %}
+
+    Куратор: <strong><a href="#">{{ lesson.mentor.user.username }}</a></strong>
+    <p>{% for tag in lesson.tags.all %}
+        <a href="#">{{ tag.title }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}</p>
+    <p>{{ lesson.description|safe }}</p>
+    <p>{{ lesson.text|safe }}</p>
+
+    <a href="{% url 'categories_list' %}" class="btn btn-outline-dark mt-3">Назад к курсам</a>
+{% endblock %}

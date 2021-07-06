@@ -23,7 +23,7 @@
                 <p><small>Преподаватель: <strong><a href="#">{{ lesson.mentor.user.username }}</a></strong></small></p>
                 <p>{{ lesson.description }}</p>
 
-                <a href="#" class="btn btn-outline-dark mt-3">Ссылка на занятие</a>
+                <a href="{% url 'lesson_detail' lesson_id=lesson.id %}" class="btn btn-outline-dark mt-3">Ссылка на занятие</a>
               </div>
             </div>
           </div>

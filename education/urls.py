@@ -7,6 +7,8 @@ urlpatterns = [
     path('contact/', views.ContactFormView.as_view(), name='contact'),
     path('courses/<int:course_id>/', views.CourseDetailView.as_view(),
          name='course_detail'),
+    path('lessons/<int:lesson_id>/', views.LessonDetailView.as_view(),
+         name='lesson_detail'),
     path('courses/add/', views.CourseAddView.as_view(), name='course_add'),
     path('courses/update/<int:pk>/', views.CourseUpdateView.as_view(),
          name='course_update'),

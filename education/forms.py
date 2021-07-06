@@ -1,6 +1,6 @@
 from django import forms
 
-from education.models import Course
+from education.models import Course, Lesson
 
 
 class FormPrettifyFieldsMixin(forms.Form):
@@ -13,6 +13,12 @@ class FormPrettifyFieldsMixin(forms.Form):
 class CourseForm(FormPrettifyFieldsMixin, forms.ModelForm):
     class Meta:
         model = Course
+        fields = '__all__'
+
+
+class LessonForm(FormPrettifyFieldsMixin, forms.ModelForm):
+    class Meta:
+        model = Lesson
         fields = '__all__'
 
 
