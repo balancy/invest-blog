@@ -11,8 +11,8 @@ from django.views.generic import (
     UpdateView,
 )
 
-from education.forms import CourseForm, ContactForm, LessonForm
-from education.models import Category, Course, Lesson
+from education.forms import CourseForm, ContactForm
+from education.models import Category, Course, Lesson, Mentor
 from education.tasks import send_mail_task
 
 
@@ -72,18 +72,26 @@ class LessonDetailView(DetailView):
         return context
 
 
+class MentorDetailView(DetailView):
+    model = Mentor
+    pk_url_kwarg = 'mentor_id'
+
+    queryset = Mentor.objects.select_related(
+        'user',
+    ).all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = kwargs['object'].user.username
+        return context
+
+
 @method_decorator(staff_member_required, name='dispatch')
 class CourseAddView(TitleMixin, CreateView):
     model = Course
     form_class = CourseForm
     title = 'Добавить курс'
     success_url = reverse_lazy('categories_list')
-
-    queryset = Course.objects.select_related(
-        'category',
-        'responsible',
-        'responsible__user',
-    ).all()
 
 
 @method_decorator(staff_member_required, name='dispatch')

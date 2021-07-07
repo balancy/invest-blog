@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    Куратор: <strong><a href="#">{{ lesson.mentor.user.username }}</a></strong>
+    Куратор: <strong><a href="{% url 'mentor_detail' mentor_id=lesson.mentor.id %}">{{ lesson.mentor.user.username }}</a></strong>
     <p>{% for tag in lesson.tags.all %}
         <a href="#">{{ tag.title }}</a>{% if not forloop.last %}, {% endif %}
     {% endfor %}</p>

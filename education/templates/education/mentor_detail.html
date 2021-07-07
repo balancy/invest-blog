@@ -1,0 +1,20 @@
+{% extends "education/base.html" %}
+
+{% block content %}
+    <p>Статус: {{ mentor.status }}</p>
+    <p>Биография: {{ mentor.bio }}</p>
+    <strong>Ответственный за курсы:</strong>
+    <p>
+        {% for course in mentor.courses.all %}
+            <a href="{% url 'course_detail' course_id=course.id %}">{{ course.title }}</a><br>
+        {% endfor %}
+    </p>
+    <strong>Преподаватель занятий:</strong>
+    <p>
+        {% for lesson in mentor.lessons.all %}
+            <a href="{% url 'lesson_detail' lesson_id=lesson.id %}">{{ lesson.title }}</a><br>
+        {% endfor %}
+    </p>
+
+    <a href="{% url 'categories_list' %}" class="btn btn-outline-dark mt-3">Назад к курсам</a>
+{% endblock %}
