@@ -1,6 +1,6 @@
 from django import forms
 
-from education.models import Course, Mentor
+from education.models import Category, Course, Mentor
 
 
 class FormPrettifyFieldsMixin(forms.Form):
@@ -11,6 +11,20 @@ class FormPrettifyFieldsMixin(forms.Form):
 
 
 class CourseForm(FormPrettifyFieldsMixin, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CourseForm, self).__init__(*args, **kwargs)
+        self.fields['category'].choices = [
+            (
+                category.id,
+                category.title,
+            ) for category in Category.objects.all()
+        ]
+        self.fields['responsible'].choices = [
+            (
+                mentor.id, mentor.user.username,
+            ) for mentor in Mentor.objects.select_related('user')
+        ]
+
     class Meta:
         model = Course
         fields = '__all__'
