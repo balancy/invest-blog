@@ -4,6 +4,8 @@ from education import views
 
 urlpatterns = [
     path('', views.CategoriesList.as_view(), name='categories_list'),
+    path('mentors/', views.MentorsList.as_view(),
+         name='mentors_list'),
     path('contact/', views.ContactFormView.as_view(), name='contact'),
     path('courses/<int:course_id>/', views.CourseDetailView.as_view(),
          name='course_detail'),

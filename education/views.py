@@ -25,11 +25,22 @@ class TitleMixin:
 
 class CategoriesList(TitleMixin, ListView):
     model = Category
-    title = 'Список курсов'
+    title = 'Курсы'
     queryset = Category.objects.prefetch_related(
         'courses',
         'courses__responsible',
         'courses__responsible__user',
+    ).all()
+
+
+class MentorsList(TitleMixin, ListView):
+    model = Mentor
+    title = 'Преподаватели'
+    queryset = Mentor.objects.select_related(
+        'user',
+    ).prefetch_related(
+        'courses',
+        'lessons',
     ).all()
 
 
