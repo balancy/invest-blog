@@ -1,25 +1,22 @@
 # Invest blog
 
-![App image](https://i.ibb.co/BzxPhjH/investblog.png)
+![App image](https://i.ibb.co/DbGgxp6/image.png)
 
-Приложение представляет приближение к обучающему сайту по инвестициям.
+App represents a pet-project for studying Django. 
 
-Приложение состоит из 7 моделей: Преподаватель, Ученик, Категория, Курс,
-Занятие, Расписание, Тэг. Каждый курс принадлежит к категории, и имеет 
-определенное количество занятий. У курса есть ответственный за него 
-преподаватель, у занятий есть их кураторы. Каждое занятие имеет определенные 
-тэги. Модель расписание связывает учеников с определенными занятиями на 
-определенное время.
+It has 7 models: Mentor, Student, Category, Course, Lesson, Schedule and Tag. Every
+course has its own category and responsible. Every lesson has its own course, mentor and tags.
+Every schedule has its own lesson, student and lesson time.
 
-Можно просматривать список курсов и каждый курс в отдельности. 
-Для администраторов ресурса есть возможность добавлять, редактировать и удалять 
-курсы.
+It's possible to browse all courses, all mentors and every instance of those models in detail.
+Staff member has a possibility to add, update and delete courses.
 
-Добавлено тестирование и создание фейковых данных для БД.
+All views have been optimized in terms of queries to db with help of django-debug-toolbar. 
 
-Добавлена контактная форма для отправки сообщений через очередь задач. Письмо
-отправляется администратору ресурса, а также отправляется уведомление 
-отправителю письма, что его сообщение отправлено.
+It was added tests and fake data creation.
+
+It was added contact form for sending messages via task queue. When the message is sent, 
+administrator receives this message and sender receives a notification.
 
 ## Install
 
@@ -35,7 +32,7 @@ git clone https://github.com/balancy/invest-blog
 python -m venv env
 ```
 
-3. Activate virtual environment. For linux-based OS:
+3. Activate virtual environment. For Linux-based OS:
 ```console
 source env/bin/activate
 ```
@@ -83,7 +80,7 @@ python manage.py runserver
 1. Launch redis server and queue workers
 
 They don't work in Windows, so if you have one, you need to launch them in 
-   emulated unix-OS (wsl or emulated ubuntu)
+   emulated unix-OS (wsl-subsystem)
 
 Launch server in one terminal
 ```console
