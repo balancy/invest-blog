@@ -13,17 +13,14 @@ class FormPrettifyFieldsMixin(forms.Form):
 class CourseForm(FormPrettifyFieldsMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CourseForm, self).__init__(*args, **kwargs)
-        self.fields['category'].choices = [
-            (
-                category.id,
-                category.title,
-            ) for category in Category.objects.all()
-        ]
-        self.fields['responsible'].choices = [
-            (
-                mentor.id, mentor.user.username,
-            ) for mentor in Mentor.objects.select_related('user')
-        ]
+        self.fields['category'].choices = Category.objects.values_list(
+            'id',
+            'title',
+        )
+        self.fields['responsible'].choices = Mentor.objects.values_list(
+            'id',
+            'user__username',
+        )
 
     class Meta:
         model = Course
